@@ -6,7 +6,6 @@ import { defaultCallbacks } from "./default-callbacks.js"
 import { AdapterError, EventError } from "../errors.js"
 import parseProviders from "./providers.js"
 import { logger, type LoggerInstance } from "./utils/logger.js"
-import parseUrl from "./utils/parse-url.js"
 
 import type {
   AuthConfig,
@@ -46,11 +45,7 @@ export async function init({
   cookies: cookie.Cookie[]
 }> {
   // TODO: move this to web.ts
-  const parsed = parseUrl(
-    reqUrl.origin +
-      reqUrl.pathname.replace(`/${action}`, "").replace(`/${providerId}`, "")
-  )
-  const url = new URL(parsed.toString())
+  const url = new URL(reqUrl.pathname.replace(`/${action}`, "").replace(`/${providerId}`, ""));
 
   const { providers, provider } = parseProviders({
     providers: authOptions.providers,
